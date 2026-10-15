@@ -19,7 +19,7 @@ public class Song implements Isound{
 //    this.player = new MediaPlayer(song);
 //    player.setCycleCount(MediaPlayer.INDEFINITE);
 //    this.play();
-
+//idfk
   }
   public void play(){
     player.play();
