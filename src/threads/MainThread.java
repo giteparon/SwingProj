@@ -3,6 +3,7 @@ package threads;
 import gui.MainMenuGui;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import javax.swing.SwingUtilities;
 
 public class MainThread {
     private BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
@@ -18,7 +19,7 @@ public class MainThread {
               executeScheduledTasks(task);
 
             }
-            MainMenuGui.render();
+
 
             Thread.sleep(TICK);
           }
@@ -40,6 +41,9 @@ public class MainThread {
     public void scheduleTasks(Runnable task){
       this.tasks.add(task);
     }
+  public void scheduleSwingTasks(Runnable task){
+    SwingUtilities.invokeLater(task);
+  }
     public void interruptThread(){
       run = false;
       main.interrupt();

@@ -4,13 +4,27 @@ import cards.DefaultCards;
 
 
 public class GameLogic {
-  public static Player checkWon(Player p1, Player p2){
-
-
-
-
-
-    return null;
+  public static Object checkBust(Player p1, Dealer p2){
+    if(p1.getAmt() > 21){
+      return p2;
+    }
+    else if(p2.getAmt() > 21){
+      return p1;
+    }
+    else{
+      return null;
+    }
+  }
+  public static Object checkWon(Player p1, Dealer p2){
+    if(p1.getAmt() > p2.getAmt()){
+      return p1;
+    }
+    else if(p2.getAmt() > p1.getAmt()){
+      return p2;
+    }
+    else{
+      return null;
+    }
   }
   public static int[] dealInitCards(DefaultCards cards) {
     int[] cardsDealed = new int[2];

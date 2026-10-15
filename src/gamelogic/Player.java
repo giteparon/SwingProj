@@ -9,7 +9,7 @@ public class Player {
   private int amt = 0;
   private boolean blackjack = false;
   private int aces = 0;
-  public ArrayList<Integer> cards;
+  public ArrayList<Integer> cards = new ArrayList<>();
   public Player(String name, DefaultCards defaultCards) {
     this.name = name;
     int[] arrayCards = GameLogic.dealInitCards(defaultCards);
@@ -30,7 +30,7 @@ public class Player {
   protected int sumPlayerCards(){
     int sum = 0;
     for(int i =0; i < this.cards.size(); i++){
-      sum+=this.cards.get(i);
+      sum+=DefaultCardsEnum.getSprite(this.cards.get(i)).value;;
     }
     if(sum > 21 && aces > 0){
       sum -= 10;

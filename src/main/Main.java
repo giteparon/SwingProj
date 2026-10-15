@@ -1,3 +1,5 @@
+package main;
+
 import gui.MainMenuGui;
 
 import javax.swing.*;
@@ -6,14 +8,13 @@ import javafx.application.Platform;
 import music.Song;
 import threads.MainThread;
 // Main class
-class Main {
-
+public class Main {
+  public static MainThread mainThread = new MainThread();
   // Main driver method
   public static void main(String[] args)
   {
     //main thread init
-    MainThread mainThread = new MainThread();
-    mainThread.scheduleTasks(() -> {
+    mainThread.scheduleSwingTasks(() -> {
       JFrame mainFrame = new JFrame();
       Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
       double width = screenSize.getWidth();
@@ -45,5 +46,9 @@ class Main {
 
 
 
+  }
+
+  public static MainThread getInstance() {
+    return mainThread;
   }
 }
