@@ -4,8 +4,8 @@ import gui.MainMenuGui;
 
 import javax.swing.*;
 import java.awt.*;
-import javafx.application.Platform;
-import music.Song;
+//import javafx.application.Platform;
+//import music.Song;
 import threads.MainThread;
 // Main class
 public class Main {
@@ -27,17 +27,17 @@ public class Main {
 
     });
     //javafx init thread
-    Platform.startup(() -> {
-      System.out.println("JavaFX Toolkit initialized successfully.");
-    });
-    Platform.runLater(() -> {
-      try {
-        Song main = new Song("mainMenuMusic");
-        System.out.println("playing song");
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    });
+//    Platform.startup(() -> {
+//      System.out.println("JavaFX Toolkit initialized successfully.");
+//    });
+//    Platform.runLater(() -> {
+//      try {
+//        Song main = new Song("mainMenuMusic");
+//        System.out.println("playing song");
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      }
+//    });
 
 
 

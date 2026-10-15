@@ -22,10 +22,9 @@ public class MainMenuGui implements Igui {
   private final ArrayList<JLabel> playerCardLabels = new ArrayList<>();
   private final ArrayList<JLabel> dealerCardLabels = new ArrayList<>();
   private final Container container;
-  private final Player player;
-  private final Dealer dealer;
+  private Player player;
+  private Dealer dealer;
 
-  // Call this on the Swing thread (SwingUtilities.invokeLater) after the frame has a size.
   public MainMenuGui(JFrame frame) {
     MainMenuGui.frame = frame;
     this.container = frame.getContentPane();
@@ -36,7 +35,16 @@ public class MainMenuGui implements Igui {
     System.out.println("Player : " + player.toString() + " Dealer : " + dealer.toString());
     JButton hit = new JButton("Hit");
     JButton deal = new JButton("Stand");
+    JButton reset = new JButton("Reset");
 
+    reset.addActionListener(e -> {
+      resetContainer();
+      cards.shuffle();
+      player = new Player("Player", cards);
+      dealer = new Dealer("Dealer", cards);
+      renderHands();
+
+    });
     hit.addActionListener(e -> {
       player.addCard(cards);
       renderHands();
@@ -71,9 +79,12 @@ public class MainMenuGui implements Igui {
 
     hit.setBounds(frame.getWidth() / 2 - 100, frame.getHeight() / 2 - 25, 100, 50);
     deal.setBounds(frame.getWidth() / 2 - 100, frame.getHeight() / 2 + 25, 100, 50);
+    reset.setBounds(frame.getWidth() / 2 - 100, frame.getHeight() / 2 + 75, 100, 50);
+
+
     container.add(hit);
     container.add(deal);
-
+    container.add(reset);
     renderHands();
   }
   private static void winnerText(String text){
@@ -115,7 +126,7 @@ public class MainMenuGui implements Igui {
   public void close() {
     frame.setVisible(false);
   }
-
+  public void resetContainer()
   public static void render() {
     if (frame == null) {
       return; // frame not created yet
