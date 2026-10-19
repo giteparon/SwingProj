@@ -4,7 +4,5 @@ public interface Igui {
   public void open();
   public void close();
 
-  public static void render() {
-
-  }
+  public void render();
 }

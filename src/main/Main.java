@@ -1,5 +1,6 @@
 package main;
 
+import gui.GameGui;
 import gui.MainMenuGui;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class Main {
   public static void main(String[] args)
   {
     //main thread init
-    mainThread.scheduleSwingTasks(() -> {
+
       JFrame mainFrame = new JFrame();
       Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
       double width = screenSize.getWidth();
@@ -23,9 +24,9 @@ public class Main {
       mainFrame.setResizable(true);
       mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       mainFrame.setVisible(true);
-      MainMenuGui mainMenuGui = new MainMenuGui(mainFrame);
-
-    });
+//      MainMenuGui mainMenuGui = new MainMenuGui(mainFrame);
+      GameGui gameGui = new GameGui(mainFrame);
+      MainThread.guis.add(gameGui);
     //javafx init thread
 //    Platform.startup(() -> {
 //      System.out.println("JavaFX Toolkit initialized successfully.");

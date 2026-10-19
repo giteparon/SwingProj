@@ -24,7 +24,8 @@ public class MainMenuGui implements Igui {
   private final Container container;
   private Player player;
   private Dealer dealer;
-
+  private static boolean gameEnd = false;
+  private static JLabel _t;
   public MainMenuGui(JFrame frame) {
     MainMenuGui.frame = frame;
     this.container = frame.getContentPane();
@@ -45,36 +46,43 @@ public class MainMenuGui implements Igui {
       renderHands();
 
     });
+
     hit.addActionListener(e -> {
-      player.addCard(cards);
-      renderHands();
-      if(GameLogic.checkBust(player, dealer) != null){
-        Main.getInstance().scheduleSwingTasks(() ->{
-          winnerText("dealer won!");
-        });
+      if(gameEnd == false){
+        player.addCard(cards);
+        renderHands();
+        if(GameLogic.checkBust(player, dealer) != null){
+          Main.getInstance().scheduleSwingTasks(() ->{
+            winnerText("dealer won!");
+          });
+        }
       }
+
     });
     deal.addActionListener(e -> {
-      dealer.dealTill17(cards);
-      renderHands();
-      if(GameLogic.checkBust(player, dealer) != null){
-        if(GameLogic.checkWon(player, dealer) == null){
-          Main.getInstance().scheduleSwingTasks(() -> {
-            winnerText("tie");
-          });
-        }
-        else{
-          Main.getInstance().scheduleSwingTasks(() ->{
-            winnerText("Player won!");
-          });
-        }
+      if(gameEnd == false){
+        dealer.dealTill17(cards);
+        renderHands();
+        if(GameLogic.checkBust(player, dealer) != null){
+          if(GameLogic.checkWon(player, dealer) == null){
+            Main.getInstance().scheduleSwingTasks(() -> {
+              winnerText("tie");
+            });
+          }
+          else{
+            Main.getInstance().scheduleSwingTasks(() ->{
+              winnerText("Player won!");
+            });
+          }
 
+        }
+        else if(GameLogic.checkBust(player, dealer) == null){
+          Main.getInstance().scheduleSwingTasks(() ->{
+            winnerText(GameLogic.checkWon(player, dealer).toString() + " won the game");
+          });
+        }
       }
-      else if(GameLogic.checkBust(player, dealer) == null){
-        Main.getInstance().scheduleSwingTasks(() ->{
-          winnerText(GameLogic.checkWon(player, dealer).toString() + " won the game");
-        });
-      }
+
     });
 
     hit.setBounds(frame.getWidth() / 2 - 100, frame.getHeight() / 2 - 25, 100, 50);
@@ -87,11 +95,12 @@ public class MainMenuGui implements Igui {
     container.add(reset);
     renderHands();
   }
-  private static void winnerText(String text){
-    JTextArea _t = new JTextArea(text);
+  private void winnerText(String text){
+    _t = new JLabel(text);
+    gameEnd = true;
     _t.setBounds(frame.getWidth() / 2 - 150, 10, 300, 300);
     frame.add(_t);
-    render();
+    this.render();
   }
   // Rebuilds the card labels from the current hands. Must run on the Swing thread.
   private void renderHands() {
@@ -126,8 +135,12 @@ public class MainMenuGui implements Igui {
   public void close() {
     frame.setVisible(false);
   }
-  public void resetContainer()
-  public static void render() {
+  public void resetContainer(){
+    _t.setText("");
+    render();
+    gameEnd = false;
+  }
+  public void render() {
     if (frame == null) {
       return; // frame not created yet
     }
