@@ -4,12 +4,13 @@ import cards.DefaultCards;
 import cards.DefaultCardsEnum;
 import java.util.ArrayList;
 
-public class Dealer {
+public class Dealer {//i was gonna make an abstract class for player and dealer but i lowk didnt have a good name for it so i js didnt lol
   private String name;
   private int amt = 0;
   private boolean blackjack = false;
   private int aces = 0;
   public ArrayList<Integer> cards = new ArrayList<>();
+  public ArrayList<Integer> actualCards = new ArrayList<>();
   public Dealer(String name,  DefaultCards defaultCards) {
     this.name = name;
     int[] arrayCards = GameLogic.dealInitCards(defaultCards);
@@ -26,6 +27,10 @@ public class Dealer {
     if(DefaultCardsEnum.getSprite(cards.get(1)).value == 11){
       aces++;
     }
+    actualCards = new ArrayList<>(cards);
+    for(int i = 1; i < actualCards.size(); i++){
+      actualCards.set(i, -1);
+    }
   }
   protected int sumPlayerCards(){
     int sum = 0;
@@ -41,6 +46,7 @@ public class Dealer {
   public void addCard(DefaultCards defaultCards){
     int card = GameLogic.dealCard(defaultCards);
     this.cards.add(card);
+    this.actualCards.add(-1);
     if(DefaultCardsEnum.getSprite(card).value == 11){
       aces++;
     }
@@ -54,5 +60,9 @@ public class Dealer {
 
   public int getAmt() {
     return amt;
+  }
+  @Override
+  public String toString(){
+    return name;
   }
 }

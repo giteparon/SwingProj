@@ -4,7 +4,7 @@ import cards.DefaultCards;
 import cards.DefaultCardsEnum;
 import java.util.ArrayList;
 
-public class Player {
+public class Player { //i was gonna make an abstract class for player and dealer but i lowk didnt have a good name for it so i js didnt lol
   private String name;
   private int amt = 0;
   private boolean blackjack = false;
@@ -46,6 +46,10 @@ public class Player {
     }
     amt = sumPlayerCards();
 
+  }
+  @Override
+  public String toString(){
+    return name;
   }
   public int getAmt(){
     return this.amt;

@@ -1,6 +1,7 @@
 package cards;
 
 public enum DefaultCardsEnum {
+  BACK("./resources/default_card_sprites/card_back.png", -1 , 0),
   LEAF_A("./resources/default_card_sprites/leaf_a.png", 0, 11),
   LEAF_2("./resources/default_card_sprites/leaf_2.png", 1, 2),
   LEAF_3("./resources/default_card_sprites/leaf_3.png", 2, 3),

@@ -5,3 +5,4 @@ public interface Isound {
   public void stop();
   public void loop(boolean toggle);
 }
+//THIS DOESNT WORK IN SCHOOL

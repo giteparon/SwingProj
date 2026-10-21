@@ -2,7 +2,6 @@ package threads;
 
 import gui.GameGui;
 import gui.Igui;
-import gui.MainMenuGui;
 
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
@@ -12,17 +11,18 @@ import javax.swing.SwingUtilities;
 public class MainThread {
     private BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
     private Thread main;
-    public static ArrayList<Igui> guis;
+    public ArrayList<Igui> guis = new ArrayList<>();
     private volatile boolean run = true; //visible across threads
     public static final int TICK = 50;
     public MainThread(){
+      Thread main = new Thread(() -> {// i have great plans for this thread TRUST
         try {
           while(run){
             Runnable task;
             if(guis != null){
-                for(int i = 0; i < guis.size(); i++){
-                    guis.get(i).render();
-                }
+              for(int i = 0; i < guis.size(); i++){
+                guis.get(i).render();
+              }
             }
 
 
@@ -37,8 +37,12 @@ public class MainThread {
 
         }
         catch(InterruptedException e){
-            System.out.println(e);
-      }
+          System.out.println(e);
+        }
+      });
+      main.start();
+      this.main = main;
+
     }
     private void executeScheduledTasks(Runnable task){
       task.run();

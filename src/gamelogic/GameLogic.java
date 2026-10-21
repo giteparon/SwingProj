@@ -3,7 +3,7 @@ package gamelogic;
 import cards.DefaultCards;
 
 
-public class GameLogic {
+public class GameLogic { //too little logic in here and too much in gamegui i should reorganize the code
   public static Object checkBust(Player p1, Dealer p2){
     if(p1.getAmt() > 21){
       return p2;
