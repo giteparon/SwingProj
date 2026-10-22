@@ -19,13 +19,13 @@ public class GameGui implements Igui{
     private final DefaultCards cards = new DefaultCards();
     private final Stack<JLabel> playerCardLabels = new Stack<>();
     private final Stack<JLabel> dealerCardLabels = new Stack<>();
-    JButton hitButton = new JButton("hit");
+    HitButton hitButton = new HitButton();
     JButton standButton = new JButton("stand");
     JButton restartButton = new JButton("restart");
-    private static JLabel _t = new JLabel("");
-    Player player = new Player("Player", cards);
-    Dealer dealer = new Dealer("Dealer", cards);
-    private static boolean gameEnd = false;
+    private JLabel _t = new JLabel("");
+    private Player player = new Player("Player", cards);
+    private Dealer dealer = new Dealer("Dealer", cards);
+    private boolean gameEnd = false;
     public GameGui(JFrame frame){
         this.frame = frame;
         container = frame.getContentPane();
@@ -49,26 +49,13 @@ public class GameGui implements Igui{
             renderDealerHands();
 
         });
-
-        hitButton.addActionListener(e -> {
-            if(gameEnd == false){
-                player.addCard(cards);
-                renderDealerHands();
-                if(GameLogic.checkBust(player, dealer) != null){
-                    Main.getInstance().scheduleSwingTasks(() ->{
-                        winnerText("Dealer won!");
-                    });
-                }
-            }
-
-        });
         standButton.addActionListener(e -> {
             if(gameEnd == false){
                 dealer.dealTill17(cards);
                 renderHands();
                 if(GameLogic.checkBust(player, dealer) != null){
 
-                        Main.getInstance().scheduleSwingTasks(() ->{
+                        Main.getThreadInstance().scheduleSwingTasks(() ->{
                             winnerText("Player won!");
                         });
 
@@ -76,13 +63,13 @@ public class GameGui implements Igui{
                 }
                 else if(GameLogic.checkBust(player, dealer) == null){
                     if(GameLogic.checkWon(player, dealer) == null){
-                        Main.getInstance().scheduleSwingTasks(() -> {
+                        Main.getThreadInstance().scheduleSwingTasks(() -> {
                             System.out.println("got here");
                             winnerText("tie");
                         });
                     }
                     else{
-                        Main.getInstance().scheduleSwingTasks(() ->{
+                        Main.getThreadInstance().scheduleSwingTasks(() ->{
                             winnerText(GameLogic.checkWon(player, dealer).toString() + " won!");
                         });
                     }
@@ -111,7 +98,7 @@ public class GameGui implements Igui{
         container.setVisible(false);
     }
 
-    private void winnerText(String text){
+    public void winnerText(String text){
         _t = new JLabel(text);
         gameEnd = true;
         _t.setFont(new Font("Arial", Font.BOLD, 48));
@@ -119,12 +106,12 @@ public class GameGui implements Igui{
         dealerSide.add(_t);
         renderHands();
     }
-    private void renderHands() {
+    public void renderHands() {
         playerSide.setCardsPanel(rebuildLabels(playerCardLabels, player.cards, playerSide));
         dealerSide.setCardsPanel(rebuildLabels(dealerCardLabels, dealer.cards, dealerSide));
         render();
     }
-    private void renderDealerHands() {
+    public void renderDealerHands() {
         playerSide.setCardsPanel(rebuildLabels(playerCardLabels, player.cards, playerSide));
         dealerSide.setCardsPanel(rebuildLabels(dealerCardLabels, dealer.actualCards, dealerSide));
         render();
@@ -134,7 +121,7 @@ public class GameGui implements Igui{
         render();
         gameEnd = false;
     }
-    private JLayeredPane rebuildLabels(Stack<JLabel> labels, ArrayList<Integer> hand, PlayerPanel panel) {
+    public JLayeredPane rebuildLabels(Stack<JLabel> labels, ArrayList<Integer> hand, PlayerPanel panel) {
         for (JLabel l : labels) {
             panel.getCardsPanel().remove(l);
         }
@@ -175,5 +162,17 @@ public class GameGui implements Igui{
         }
 
 
+    }
+    public Dealer getDealer(){
+        return dealer;
+    }
+    public Player getPlayer(){
+        return player;
+    }
+    public boolean getGameEnd(){
+        return gameEnd;
+    }
+    public DefaultCards getCards(){
+        return cards;
     }
 }

@@ -23,6 +23,5 @@ public class DefaultCards implements Icard { //this supports addition of skins i
   }
   public void shuffle() {
     prevRndInd = new ArrayList<Integer>();
-    System.out.println("idk");
   }
 }

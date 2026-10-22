@@ -50,6 +50,14 @@ public class MainThread {
     public void scheduleTasks(Runnable task){
       this.tasks.add(task);
     }
+    public void sleep(int ticks){
+      try{
+        Thread.sleep(TICK * ticks);
+      } catch(InterruptedException e){
+        System.out.println(e);
+      }
+
+    }
   public void scheduleSwingTasks(Runnable task){
     SwingUtilities.invokeLater(task);
   }
@@ -57,4 +65,5 @@ public class MainThread {
       run = false;
       main.interrupt();
     }
+
 }

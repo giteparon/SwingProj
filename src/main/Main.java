@@ -11,6 +11,7 @@ import java.awt.*;
 import threads.MainThread;
 public class Main {
   public static MainThread mainThread = new MainThread();
+  private static GameGui gameGui;
   public static void main(String[] args)
   {
     System.out.println("main started");
@@ -25,7 +26,7 @@ public class Main {
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        GameGui gameGui = new GameGui(mainFrame);
+        gameGui = new GameGui(mainFrame);
         mainThread.guis.add(gameGui);
         gameGui.open();
         mainFrame.setVisible(true);
@@ -54,8 +55,10 @@ public class Main {
 
 
   }
-
-  public static MainThread getInstance() {
+  public static GameGui getGameGuiInstance(){
+    return gameGui;
+  }
+  public static MainThread getThreadInstance() {
     return mainThread;
   }
 }
